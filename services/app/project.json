@@ -1,0 +1,23 @@
+{
+  "name": "oliveplay",
+  "projectType": "application",
+  "$schema": "../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "services/app/lib",
+  "tags": [],
+  "targets": {
+    "serve": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "services/app",
+        "command": "flutter run"
+      }
+    },
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "services/app",
+        "command": "flutter build"
+      }
+    }
+  }
+}

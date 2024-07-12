@@ -1,0 +1,21 @@
+{
+  "name": "api",
+  "projectType": "application",
+  "sourceRoot": "services/api",
+  "targets": {
+    "serve": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "services/api",
+        "command": "go run main.go"
+      }
+    },
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "services/api",
+        "command": "go build -o dist/main main.go"
+      }
+    }
+  }
+}

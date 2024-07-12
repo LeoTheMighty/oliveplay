@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="NxAngularConfigService" workspaceLocation="file://$PROJECT_DIR$/nx.json">
+    <projects>
+      <project name="." file="file://$PROJECT_DIR$/project.json" />
+      <project name="api" file="file://$PROJECT_DIR$/services/api/project.json" />
+      <project name="oliveplay" file="file://$PROJECT_DIR$/services/app/project.json" />
+    </projects>
+  </component>
+</project>
