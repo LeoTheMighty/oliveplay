@@ -30,6 +30,8 @@ docker-compose.yml
 - [Nx CLI](https://nx.dev/getting-started/intro)
 - [Flutter SDK](https://flutter.dev/docs/get-started/install)
 - [Go](https://golang.org/doc/install)
+- [Xcode](https://apps.apple.com/us/app/xcode/id497799835?mt=12) (for iOS development)
+- A physical iPhone or iOS Simulator
 
 ## Setup
 
@@ -100,6 +102,31 @@ For local development of the Go backend without Docker, you can use the followin
   cd services/api
   go build -o dist/main main.go
   ```
+
+### Testing Flutter on iOS
+
+#### Enable Developer Mode on iPhone
+
+1. Open the **Settings** app on your iPhone.
+2. Go to **Privacy & Security**.
+3. Scroll down and select **Developer Mode**.
+4. Toggle the **Developer Mode** switch to enable it.
+5. Your iPhone will prompt you to restart. After restarting, confirm that you want to enable Developer Mode.
+
+#### Using Xcode and a Physical Device
+
+1. Open a terminal and run `flutter doctor` to ensure all dependencies are installed.
+2. Connect your iPhone to your Mac using a USB cable.
+3. Navigate to your Flutter project directory: `cd services/frontend`.
+4. Open the iOS project in Xcode: `open ios/Runner.xcworkspace`.
+5. In Xcode, select your connected iPhone as the target device.
+6. Click the "Run" button (or use the shortcut `Cmd + R`) to build and run the app on your iPhone.
+
+#### Using iOS Simulator
+
+1. Open the iOS simulator from Xcode: `Xcode > Open Developer Tool > Simulator`.
+2. In the terminal, navigate to your Flutter project directory: `cd services/frontend`.
+3. Run the app on the iOS simulator: `flutter run`.
 
 ## Project Configuration
 
