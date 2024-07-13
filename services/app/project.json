@@ -1,5 +1,5 @@
 {
-  "name": "oliveplay",
+  "name": "app",
   "projectType": "application",
   "$schema": "../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "services/app/lib",
@@ -17,6 +17,13 @@
       "options": {
         "cwd": "services/app",
         "command": "flutter build"
+      }
+    },
+    "install": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "services/app",
+        "command": "flutter packages get"
       }
     }
   }

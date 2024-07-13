@@ -4,7 +4,7 @@
     <projects>
       <project name="." file="file://$PROJECT_DIR$/project.json" />
       <project name="api" file="file://$PROJECT_DIR$/services/api/project.json" />
-      <project name="oliveplay" file="file://$PROJECT_DIR$/services/app/project.json" />
+      <project name="app" file="file://$PROJECT_DIR$/services/app/project.json" />
     </projects>
   </component>
 </project>

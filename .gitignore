@@ -4,3 +4,5 @@
 .nx/workspace-data
 
 .idea
+
+.env.dev

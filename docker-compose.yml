@@ -1,12 +1,38 @@
 version: '3.8'
 
 services:
+  db:
+    image: postgres:latest
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      POSTGRES_USER: youruser
+      POSTGRES_PASSWORD: yourpassword
+      POSTGRES_DB: yourdb
+    ports:
+      - "5432:5432"
+
+  migrator:
+    build:
+      context: ./services/migrator
+      dockerfile: Dockerfile
+    environment:
+      DB_USER: olive
+      DB_PASSWORD: play
+      DB_NAME: db
+      DB_HOST: db
+      DB_PORT: 5432
+    depends_on:
+      - db
+
   app:
     build:
       context: ./services/app
       dockerfile: Dockerfile
     ports:
       - "80:80"
+    volumes:
+      - ./services/app:/app
     depends_on:
       - api
 
@@ -16,3 +42,10 @@ services:
       dockerfile: Dockerfile
     ports:
       - "3000:3000"
+    volumes:
+      - ./services/api:/api
+    env_file:
+      - .env.dev
+
+volumes:
+  postgres_data:

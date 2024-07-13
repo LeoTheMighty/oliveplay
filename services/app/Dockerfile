@@ -4,8 +4,11 @@ FROM instrumentisto/flutter:latest as build
 WORKDIR /app
 COPY . .
 
+# Copy the .env.dev file
+COPY .env.dev /app/.env.dev
+
 # Build the Flutter web app
-RUN flutter build web
+RUN flutter build web --dart-define-from-file=/app/.env.dev
 
 # Stage 2: Serve the Flutter app using nginx
 FROM nginx:alpine

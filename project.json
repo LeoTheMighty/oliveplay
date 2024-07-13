@@ -1,7 +1,7 @@
 {
   "version": "2",
   "projects": {
-    "frontend": "services/frontend",
+    "app": "services/app",
     "api": "services/api"
   }
 }

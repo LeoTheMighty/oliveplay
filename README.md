@@ -4,7 +4,7 @@
 
 ## Overview
 
-This project is a monorepo setup using Nx, Docker, Flutter, and Go. It contains a Flutter frontend and a Go backend using the go-chi framework. The project is structured to provide a consistent development environment and simplify deployment using Docker Compose.
+This project is a monorepo setup using Nx, Docker, Flutter, and Go. It contains a Flutter frontend (named `app`) and a Go backend using the go-chi framework. The project is structured to provide a consistent development environment and simplify deployment using Docker Compose.
 
 ## Project Structure
 
@@ -15,9 +15,10 @@ services/
 │   ├── go.mod
 │   ├── go.sum
 │   └── Dockerfile
-└── frontend  # Flutter frontend
+└── app       # Flutter frontend
     ├── lib/
     ├── pubspec.yaml
+    ├── .env.dev
     └── Dockerfile
 workspace.json
 docker-compose.yml
@@ -50,20 +51,57 @@ If you haven't already installed the Nx CLI, you can install it globally using n
 npm install -g nx
 ```
 
-### 3. Build and Run with Docker Compose
+### 3. Find Your Local IP Address
+
+To connect your iOS device to your backend service running on your local machine, you need to know the local IP address of your development machine. Use the following command to get the IP address that starts with `192`:
+
+#### On macOS and Linux:
+
+```bash
+ifconfig | grep "inet " | grep -Fv 127.0.0.1 | awk '{print $2}' | grep '^192'
+```
+
+#### On Windows:
+
+1. Open **Command Prompt**.
+2. Run the following command:
+
+```bash
+ipconfig
+```
+
+Look for the `IPv4 Address` under the section corresponding to your active network connection. Ensure it starts with `192`.
+
+### 4. Create a `.env.dev` File
+
+Copy over the template and fill out the necessary environment variables.
+
+```bash
+cp .env.dev.tmpl .env.dev
+```
+
+Looks like this:
+
+```plaintext
+API_URL=http://<your-local-ip>:3000
+```
+
+Replace `<your-local-ip>` with the IP address of your development machine.
+
+### 5. Build and Run with Docker Compose
 
 Build and run the services using Docker Compose:
 
 ```bash
-docker-compose up --build
+docker-compose up
 ```
 
 This command will build the Docker images for both the Flutter frontend and the Go backend, and start them.
 
-### 4. Verify Setup
+### 6. Verify Setup
 
 - **Flutter Frontend**: Open a web browser and navigate to `http://localhost`. You should see the Flutter web application.
-- **Go Backend**: Open a web browser and navigate to `http://localhost:3000`. You should see "Hello, World!".
+- **Go Backend**: Open a web browser and navigate to `http://<your-local-ip>:3000`. You should see "Hello, World!".
 
 ## Development
 
@@ -74,16 +112,21 @@ For local development of the Flutter frontend without Docker, you can use the fo
 - **Serve**: Start the Flutter development server:
 
   ```bash
-  cd services/frontend
-  flutter run
+  npx nx run app:serve
   ```
 
 - **Build**: Build the Flutter application:
 
   ```bash
-  cd services/frontend
-  flutter build web
+  npx nx run app:build
   ```
+  
+- **Install**: Install the flutter assets (Helpful for IDE setup)
+
+    ```bash
+fvm flutter upgrade
+npx nx run app:install
+    ```
 
 ### Go Backend
 
@@ -92,15 +135,13 @@ For local development of the Go backend without Docker, you can use the followin
 - **Serve**: Start the Go server:
 
   ```bash
-  cd services/api
-  go run main.go
+  npx nx run api:serve
   ```
 
 - **Build**: Build the Go application:
 
   ```bash
-  cd services/api
-  go build -o dist/main main.go
+  npx nx run api:build
   ```
 
 ### Testing Flutter on iOS
@@ -115,56 +156,75 @@ For local development of the Go backend without Docker, you can use the followin
 
 #### Using Xcode and a Physical Device
 
-1. Open a terminal and run `flutter doctor` to ensure all dependencies are installed.
-2. Connect your iPhone to your Mac using a USB cable.
-3. Navigate to your Flutter project directory: `cd services/frontend`.
-4. Open the iOS project in Xcode: `open ios/Runner.xcworkspace`.
-5. In Xcode, select your connected iPhone as the target device.
-6. Click the "Run" button (or use the shortcut `Cmd + R`) to build and run the app on your iPhone.
+1. **Find Local IP Address**:
+  - Follow the steps in the "Find Your Local IP Address" section to get your local IP address.
 
-#### Using iOS Simulator
+2. **Update `.env.dev` File**:
+  - Ensure the `.env.dev` file in your `services/app` directory contains the correct API URL pointing to your local IP address:
+    ```plaintext
+    API_URL=http://<your-local-ip>:3000
+    ```
 
-1. Open the iOS simulator from Xcode: `Xcode > Open Developer Tool > Simulator`.
-2. In the terminal, navigate to your Flutter project directory: `cd services/frontend`.
-3. Run the app on the iOS simulator: `flutter run`.
+3. **Run Docker Compose**:
+   ```bash
+   docker-compose up --build
+   ```
+   
+4. **Update Xcode Environment Variable**
+   - Open your Flutter project in Xcode:
+     ```bash
+     cd services/app
+     open ios/Runner.xcworkspace
+     ```
+  
+   Then on the `Product > Scheme > Edit Scheme > Run > Arguments > Environment Variables` menu option, add this
+   environment variable:
+
+    ```plaintext
+   API_URL=http://<your-local-ip>:3000
+    ```
+
+4. **Run the Flutter App in Xcode**:
+  - Ensure your connected iPhone is selected as the target device.
+  - Click the "Run" button (or use the shortcut `Cmd + R`) to build and run the app on your iPhone.
 
 ## Project Configuration
 
 ### Nx Configuration
 
-The Nx configuration is located in `workspace.json` and individual `project.json` files for each service.
+The Nx configuration is located in `project.json` and individual `project.json` files for each service.
 
-- **workspace.json**:
+- **project.json**:
 
   ```json
   {
     "version": 2,
     "projects": {
-      "frontend": "services/frontend",
+      "app": "services/app",
       "api": "services/api"
     }
   }
   ```
 
-- **services/frontend/project.json**:
+- **services/app/project.json**:
 
   ```json
   {
-    "name": "frontend",
+    "name": "app",
     "projectType": "application",
-    "sourceRoot": "services/frontend/lib",
+    "sourceRoot": "services/app/lib",
     "targets": {
       "serve": {
         "executor": "nx:run-commands",
         "options": {
-          "cwd": "services/frontend",
+          "cwd": "services/app",
           "command": "flutter run"
         }
       },
       "build": {
         "executor": "nx:run-commands",
         "options": {
-          "cwd": "services/frontend",
+          "cwd": "services/app",
           "command": "flutter build"
         }
       }
