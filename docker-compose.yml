@@ -1,0 +1,169 @@
+version: '3.8'
+services:
+  db:
+    image: postgres:15.4-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_DB=cate
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    # For development is really helpful to see all DB statements
+    command: ["postgres", "-c", "log_statement=all"]
+    healthcheck:
+      test: pg_isready -U ${POSTGRES_USER} -d cate
+      interval: 10s
+      timeout: 3s
+      retries: 3
+    ports:
+      - '5432:5432'
+
+  redis-node-1:
+    image: redis:7.2-alpine
+    command: >
+      sh -c '
+        rm -f /data/nodes.conf;
+        redis-server \
+          --appendonly yes \
+          --port 6380 \
+          --cluster-enabled yes \
+          --cluster-config-file nodes.conf \
+          --cluster-node-timeout 5000 \
+          --requirepass ${REDIS_PASSWORD}
+      '
+    env_file:
+      - .env
+    healthcheck:
+      test: redis-cli -p 6380 ping
+      interval: 10s
+      timeout: 3s
+      retries: 3
+    ports:
+      - "6380:6380"
+    volumes:
+      - redis_node1_data:/data
+
+  redis-node-2: 
+    image: redis:7.2-alpine
+    command: >
+      sh -c '
+        rm -f /data/nodes.conf;
+        redis-server \
+          --appendonly yes \
+          --port 6381 \
+          --cluster-enabled yes \
+          --cluster-config-file nodes.conf \
+          --cluster-node-timeout 5000 \
+          --requirepass ${REDIS_PASSWORD}
+      '
+    env_file:
+      - .env
+    healthcheck:
+      test: redis-cli -p 6381 ping
+      interval: 10s
+      timeout: 3s
+    ports:
+      - "6381:6381"
+    volumes:
+      - redis_node2_data:/data
+
+  redis-node-3:
+    image: redis:7.2-alpine
+    command: >
+      sh -c '
+        rm -f /data/nodes.conf;
+        redis-server \
+          --appendonly yes \
+          --port 6382 \
+          --cluster-enabled yes \
+          --cluster-config-file nodes.conf \
+          --cluster-node-timeout 5000 \
+          --requirepass ${REDIS_PASSWORD}
+      '
+    env_file:
+      - .env
+    healthcheck:
+      test: redis-cli -p 6382 ping
+      interval: 10s
+      timeout: 3s
+    ports:
+      - "6382:6382" 
+    volumes:
+      - redis_node3_data:/data
+
+  redis-cluster-init:
+    image: redis:7.2-alpine
+    depends_on:
+      - redis-node-1
+      - redis-node-2
+      - redis-node-3
+    env_file:
+      - .env
+    entrypoint: >
+      sh -c "
+        sleep 5 &&
+        # We'll check if redis-node-1 is part of a healthy cluster already
+        if redis-cli -h redis-node-1 -p 6380 --user ${REDIS_USERNAME} -a ${REDIS_PASSWORD} cluster info 2>&1 | grep -q 'cluster_state:ok'; then
+          echo 'Redis cluster already exists, skipping initialization'
+          exit 0
+        fi
+
+        # If we get here, the node is likely not in a healthy cluster yet.
+        # We'll try to create the cluster.
+        yes yes | redis-cli --cluster create redis-node-1:6380 redis-node-2:6381 redis-node-3:6382 --cluster-replicas 0 --user ${REDIS_USERNAME} -a ${REDIS_PASSWORD}
+      "
+
+  migrator:
+    image: migrator:latest
+    env_file:
+      - .env
+      - .env.dev
+    depends_on:
+      db:
+        condition: 'service_healthy'
+
+  api:
+    image: api:latest
+    volumes:
+      - ./services/api/src:/services/api/src
+      - ~/.aws:/root/.aws:ro
+    env_file:
+      - .env
+      - .env.dev
+    environment:
+      - AWS_DEFAULT_REGION=us-east-1
+    ports:
+      - 8080:8080
+    depends_on:
+      db:
+        condition: 'service_healthy'
+      worker:
+        condition: 'service_started'
+
+  worker:
+    image: worker:latest
+    volumes:
+      - ./services/worker/src:/services/worker/src
+      - ~/.aws:/root/.aws:ro
+    env_file:
+      - .env
+      - .env.dev
+    environment:
+      - AWS_DEFAULT_REGION=us-east-1
+    depends_on:
+      db:
+        condition: 'service_healthy'
+      redis-node-1:
+        condition: 'service_healthy'
+      redis-node-2:
+        condition: 'service_healthy'
+      redis-node-3:
+        condition: 'service_healthy'
+      redis-cluster-init:
+        condition: 'service_completed_successfully'
+
+volumes:
+  postgres_data:
+  redis_node1_data:
+  redis_node2_data:
+  redis_node3_data:

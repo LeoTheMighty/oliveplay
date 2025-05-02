@@ -1,0 +1,6 @@
+version: 2
+authtoken: ${NGROK_AUTHTOKEN}
+tunnels:
+  api:
+    addr: 8080  # Your API port
+    proto: http

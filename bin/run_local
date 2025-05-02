@@ -1,0 +1,56 @@
+#!/bin/bash
+
+set -e
+
+root_path=$(cd "$(dirname "$0")/.." && pwd -P)
+script_path=$(cd "$(dirname "$0")" && pwd -P)
+
+source ${root_path}/env/.env.dev
+
+# Pass in ngrok auth token
+NGROK_AUTHTOKEN=${NGROK_AUTHTOKEN} envsubst < ${root_path}/ngrok.yml > ${root_path}/.ngrok.yml
+
+# Start ngrok
+# Start ngrok and save PID
+ngrok start --all --log=stdout --config ${root_path}/.ngrok.yml > log/ngrok.log &
+NGROK_PID=$!
+
+# Ensure ngrok is killed on script exit
+trap "kill $NGROK_PID" EXIT
+
+echo "Waiting for ngrok to start..."
+sleep 2
+
+echo "Getting ngrok URL..."
+# timeout at 10 seconds to find ngrok url
+TIMEOUT=10
+START_TIME=$(date +%s)
+while true; do
+    CURRENT_TIME=$(date +%s)
+    ELAPSED=$((CURRENT_TIME - START_TIME))
+    if [ $ELAPSED -ge $TIMEOUT ]; then
+        echo "Timed out waiting for ngrok URL"
+        exit 1
+    fi
+
+    echo "Seaching tunnels..."
+    NGROK_URL=$(curl -s http://localhost:4040/api/tunnels | grep -o 'https://[^\"]*')
+    if [ "$NGROK_URL" != "null" ] && [ "$NGROK_URL" != "" ]; then
+        echo "$NGROK_URL"
+        break
+    fi
+
+    sleep 1
+done
+
+# Update all env files
+ENV=development NGROK_URL=$NGROK_URL ${root_path}/script/update_env.sh
+
+# Install dependencies
+npx nx run-many -t install
+
+# build everything
+npx nx run-many -t docker-build
+
+# Run docker compose
+docker compose up

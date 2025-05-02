@@ -1,0 +1,85 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "worker",
+  "projectType": "application",
+  "sourceRoot": "services/worker",
+  "tags": [],
+  "targets": {
+    "add": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "{projectRoot}",
+        "command": "go get {args.package}"
+      }
+    },
+    "remove": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "{projectRoot}",
+        "command": "go get {args.package}@none"
+      }
+    },
+    "install": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "{projectRoot}",
+        "command": "go mod download"
+      }
+    },
+    "clean": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "{projectRoot}",
+        "command": "go mod tidy"
+      }
+    },
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "{projectRoot}",
+        "command": "go build -o dist/worker ."
+      },
+      "dependsOn": [
+        {
+          "projects": ["cate_utils"],
+          "target": "test"
+        }
+      ]
+    },
+    "serve": {
+      "executor": "@nx-go/nx-go:serve",
+      "options": {
+        "main": "{projectRoot}/main.go"
+      }
+    },
+    "test": {
+      "executor": "@nx-go/nx-go:test"
+    },
+    "lint": {
+      "executor": "@nx-go/nx-go:lint"
+    },
+    "docker-build": {
+      "executor": "@nx-tools/nx-container:build", 
+      "options": {
+        "context": "{workspaceRoot}",
+        "engine": "docker",
+        "file": "{projectRoot}/Dockerfile",
+        "load": true,
+        "metadata": {
+          "images": ["worker"],
+          "tags": ["type=raw,value=latest"]
+        }
+      },
+      "configurations": {
+        "ci": {
+          "target": "production",
+          "load": false,
+          "metadata": {
+            "images": ["$AWS_ECR_ACCOUNT_URL/cate/worker"],
+            "tags": ["type=raw,value={{date 'YYYYMMDDTHHmmss'}}-{{sha}}"]
+          }
+        }
+      }
+    }
+  }
+} 

@@ -1,0 +1,158 @@
+{
+  "name": "migrator",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "Migrator",
+  "tags": [],
+  "targets": {
+    "create-migration": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "{projectRoot}",
+        "commands": [
+          "POSTGRESQL_URL='postgres://cate:password@localhost:5432/cate?sslmode=disable' migrate create -dir src/migrations -ext sql -seq {args.name}"
+        ]
+      }
+    },
+    "status": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "{projectRoot}",
+        "commands": [
+          "POSTGRESQL_URL='postgres://cate:password@localhost:5432/cate?sslmode=disable' migrate -path src/migrations -database ${POSTGRESQL_URL} version"
+        ]
+      }
+    },
+    // !!! DON'T USE THESE USUALLY, USE DOCKER COMPOSE INSTEAD !!!
+    "migrate": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "{projectRoot}",
+        "commands": [
+          "POSTGRESQL_URL='postgres://cate:password@localhost:5432/cate?sslmode=disable' migrate -path src/migrations -database ${POSTGRESQL_URL} up"
+        ]
+      }
+    },
+    "up": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "{projectRoot}",
+        "commands": [
+          "POSTGRESQL_URL='postgres://cate:password@localhost:5432/cate?sslmode=disable' migrate -path src/migrations -database ${POSTGRESQL_URL} up 1"
+        ]
+      }
+    },
+    "down": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "{projectRoot}",
+        "commands": [
+          "POSTGRESQL_URL='postgres://cate:password@localhost:5432/cate?sslmode=disable' migrate -path src/migrations -database ${POSTGRESQL_URL} down 1"
+        ]
+      }
+    },
+    "rollback": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "{projectRoot}",
+        "commands": [
+          "POSTGRESQL_URL='postgres://cate:password@localhost:5432/cate?sslmode=disable' migrate -path src/migrations -database ${POSTGRESQL_URL} down"
+        ]
+      }
+    },
+    "goto": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "{projectRoot}",
+        "commands": [
+          "POSTGRESQL_URL='postgres://cate:password@localhost:5432/cate?sslmode=disable' migrate -path src/migrations -database ${POSTGRESQL_URL} goto {args.version}"
+        ]
+      }
+    },
+    "add": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "{projectRoot}",
+        "command": "go get {args.package}"
+      }
+    },
+    "remove": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "{projectRoot}",
+        "command": "go get {args.package}@none"
+      }
+    },
+    "install": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "{projectRoot}",
+        "command": "go mod download"
+      }
+    },
+    "clean": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "{projectRoot}",
+        "command": "go mod tidy"
+      }
+    },
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "{projectRoot}",
+        "commands": [
+          "go build -o dist/migrator ."
+        ]
+      },
+      "dependsOn": [
+        {
+          "projects": ["cate_utils"],
+          "target": "test"
+        }
+      ]
+    },
+    "serve": {
+      "executor": "@nx-go/nx-go:serve",
+      "options": {
+        "main": "{projectRoot}/main.go"
+      }
+    },
+    "test": {
+      "executor": "@nx-go/nx-go:test"
+    },
+    "lint": {
+      "executor": "@nx-go/nx-go:lint"
+    },
+    "docker-build": {
+      "executor": "@nx-tools/nx-container:build", 
+      "options": {
+        "context": "{workspaceRoot}",
+        "engine": "docker",
+        "file": "{projectRoot}/Dockerfile",
+        "load": true,
+        "metadata": {
+          "images": ["migrator"],
+          "tags": ["type=raw,value=latest"]
+        }
+      },
+      "configurations": {
+        "ci": {
+          "target": "production",
+          "load": false,
+          "metadata": {
+            "images": ["$AWS_ECR_ACCOUNT_URL/cate/migrator"],
+            "tags": ["type=raw,value={{date 'YYYYMMDDTHHmmss'}}-{{sha}}"]
+          }
+        }
+      }
+    },
+    "run": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "{projectRoot}",
+        "command": "./bin/migrator"
+      }
+    }
+  }
+}

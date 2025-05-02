@@ -1,0 +1,63 @@
+{
+  "name": "bootstrapper",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "services/bootstrapper",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "{projectRoot}",
+        "command": "cargo build"
+      },
+      "configurations": {
+        "production": {
+          "command": "cargo build --release"
+        }
+      }
+    },
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "{projectRoot}",
+        "command": "cargo test"
+      }
+    },
+    "lint": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "{projectRoot}",
+        "command": "cargo clippy"
+      }
+    },
+    "install-pi-deps": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "{projectRoot}",
+        "command": "sudo apt-get update && sudo apt-get install -y libssl-dev build-essential pkg-config"
+      }
+    },
+    "run": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "{projectRoot}",
+        "command": "cargo run"
+      }
+    },
+    "health-check": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "{projectRoot}",
+        "command": "cargo run"
+      }
+    },
+    "upgrade": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "{projectRoot}",
+        "command": "cargo run"
+      }
+    }
+  }
+}

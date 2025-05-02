@@ -1,0 +1,64 @@
+{
+  "name": "app",
+  "$schema": "../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "app",
+  "tags": [],
+  "targets": {
+    "web": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "{projectRoot}",
+        "command": "flutter run -d chrome"
+      }
+    },
+    "ios": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "{projectRoot}",
+        "command": "flutter run -d ${FLUTTER_IOS_DEVICE_ID} || echo 'Failed to run on iOS - Make sure you update .env.dev with `FLUTTER_IOS_DEVICE_ID` you can find with `flutter devices`'"
+      }
+    },
+    "android": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "{projectRoot}",
+        "command": "flutter run -d ${FLUTTER_ANDROID_DEVICE_ID} || echo 'Failed to run on Android - Make sure you update .env.dev with `FLUTTER_ANDROID_DEVICE_ID` you can find with `flutter devices`'"
+      }
+    },
+    "add": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "{projectRoot}",
+        "command": "flutter pub add {args.package}"
+      }
+    },
+    "upgrade": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "{projectRoot}",
+        "command": "flutter pub upgrade --major-versions"      
+      }
+    },
+    "doctor": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "{projectRoot}",
+        "command": "flutter doctor"
+      }
+    },
+    "install": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "{projectRoot}",
+        "command": "flutter pub get"
+      }
+    },
+    "clean": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "{projectRoot}",
+        "command": "flutter clean"
+      }
+    }
+  }
+}

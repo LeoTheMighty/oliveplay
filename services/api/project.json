@@ -1,0 +1,87 @@
+{
+  "name": "api",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "services/api",
+  "tags": [],
+  "targets": {
+    "add": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "{projectRoot}",
+        "command": "go get {args.package}"
+      }
+    },
+    "remove": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "{projectRoot}",
+        "command": "go get {args.package}@none"
+      }
+    },
+    "install": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "{projectRoot}",
+        "command": "go mod download"
+      }
+    },
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "{projectRoot}",
+        "commands": [
+          "go build -o dist/api ."
+        ]
+      },
+      "dependsOn": [
+        {
+          "projects": ["cate_utils"],
+          "target": "test"
+        }
+      ]
+    },
+    "clean": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "{projectRoot}",
+        "command": "go mod tidy"
+      }
+    },
+    "serve": {
+      "executor": "@nx-go/nx-go:serve",
+      "options": {
+        "main": "{projectRoot}/main.go"
+      }
+    },
+    "test": {
+      "executor": "@nx-go/nx-go:test"
+    },
+    "lint": {
+      "executor": "@nx-go/nx-go:lint"
+    },
+    "docker-build": {
+      "executor": "@nx-tools/nx-container:build", 
+      "options": {
+        "context": "{workspaceRoot}",
+        "engine": "docker",
+        "file": "{projectRoot}/Dockerfile",
+        "load": true,
+        "metadata": {
+          "images": ["api"],
+          "tags": ["type=raw,value=latest"]
+        }
+      },
+      "configurations": {
+        "ci": {
+          "target": "production",
+          "load": false,
+          "metadata": {
+            "images": ["$AWS_ECR_ACCOUNT_URL/cate/api"],
+            "tags": ["type=raw,value={{date 'YYYYMMDDTHHmmss'}}-{{sha}}"]
+          }
+        }
+      }
+    }
+  }
+}

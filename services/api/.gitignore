@@ -1,0 +1,18 @@
+# Existing content...
+
+# Environment files
+.env
+.env.*
+
+# Binary
+api
+bin/
+
+# IDE specific files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS specific files
+.DS_Store 

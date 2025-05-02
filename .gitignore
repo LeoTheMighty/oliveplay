@@ -1,0 +1,59 @@
+# Project Specific
+
+.ngrok.yml
+
+env/.env.dev
+env/app/.env.dev
+
+/.env
+/.env.dev
+/.env.prod
+
+/app/.env
+/api/.env
+/services/controller/.env
+
+# Logs
+/log/ngrok.log
+
+# Nx Generated
+
+# compiled output
+dist
+out-tsc
+
+# dependencies
+node_modules
+
+# IDEs and editors
+/.idea
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# misc
+/.sass-cache
+/connect.lock
+/coverage
+/libpeerconnection.log
+npm-debug.log
+yarn-error.log
+testem.log
+/typings
+
+# System Files
+.DS_Store
+Thumbs.db
+
+.nx/cache
+.nx/workspace-data
