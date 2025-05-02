@@ -1,49 +1,50 @@
 {
-  "name": "controller",
+  "name": "utils",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "projectType": "application",
-  "sourceRoot": "services/controller",
+  "projectType": "library",
+  "sourceRoot": "libraries/utils",
   "tags": [],
   "targets": {
-    "build": {
+    "add": {
       "executor": "nx:run-commands",
       "options": {
         "cwd": "{projectRoot}",
-        "command": "cargo build"
-      },
-      "configurations": {
-        "production": {
-          "command": "cargo build --release"
-        }
+        "command": "go get {args.package}"
+      }
+    },
+    "remove": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "{projectRoot}",
+        "command": "go get {args.package}@none"
+      }
+    },
+    "install": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "{projectRoot}",
+        "command": "go mod download"
+      }
+    },
+    "clean": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "{projectRoot}",
+        "command": "go mod tidy"
+      }
+    },
+    "generate_schema": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "{projectRoot}",
+        "commands": ["sqlc generate"]
       }
     },
     "test": {
-      "executor": "nx:run-commands",
-      "options": {
-        "cwd": "{projectRoot}",
-        "command": "cargo test"
-      }
+      "executor": "@nx-go/nx-go:test"
     },
     "lint": {
-      "executor": "nx:run-commands",
-      "options": {
-        "cwd": "{projectRoot}",
-        "command": "cargo clippy"
-      }
-    },
-    "install-pi-deps": {
-      "executor": "nx:run-commands",
-      "options": {
-        "cwd": "{projectRoot}",
-        "command": "sudo apt-get update && sudo apt-get install -y libssl-dev build-essential pkg-config"
-      }
-    },
-    "run": {
-      "executor": "nx:run-commands",
-      "options": {
-        "cwd": "{projectRoot}",
-        "command": "cargo run"
-      }
+      "executor": "@nx-go/nx-go:lint"
     }
   }
 }

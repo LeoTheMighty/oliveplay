@@ -1,9 +1,9 @@
-module catescafe.com/migrator
+module oliveplay.co/migrator
 
 go 1.24
 
 require (
-	cate/cate_utils v0.0.0
+	oliveplay/utils v0.0.0
 	github.com/golang-migrate/migrate/v4 v4.18.2
 )
 
@@ -21,4 +21,4 @@ require (
 	google.golang.org/protobuf v1.35.2 // indirect
 )
 
-replace cate/cate_utils => ../../libraries/cate_utils
+replace oliveplay/utils => ../../libraries/utils

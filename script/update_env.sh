@@ -21,11 +21,6 @@ if [ "$ENV" == "development" ]; then
     # API environment 
     echo "Setting up API environment..."
     cat ${root_path}/env/.env.dev ${root_path}/env/api/.env.dev > ${root_path}/.env.dev
-
-    # Controller environment
-    echo "Setting up Controller environment..."
-    cat ${root_path}/env/.env.dev ${root_path}/env/controller/.env.dev > ${root_path}/services/controller/.env
-    echo "NGROK_API_URL=$NGROK_URL" >> ${root_path}/services/controller/.env
 fi
 
 if [ "$ENV" == "production" ]; then
@@ -36,8 +31,4 @@ if [ "$ENV" == "production" ]; then
     # API environment
     echo "Setting up API environment..."
     cat ${root_path}/env/.env.prod ${root_path}/env/api/.env.prod > ${root_path}/.env.prod
-
-    # Controller environment
-    echo "Setting up Controller environment..."
-    cat ${root_path}/env/.env.prod ${root_path}/env/controller/.env.prod > ${root_path}/services/controller/.env
 fi

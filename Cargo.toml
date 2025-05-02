@@ -1,9 +1,0 @@
-
-[workspace]
-resolver = '2'
-members = [
-	'services/cate_controller/cate_controller',
-]
-
-[profile.release]
-lto = true

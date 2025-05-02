@@ -8,16 +8,16 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/hibiken/asynq"
 
-	"cate/cate_utils/cate_utils"
-	"cate/cate_utils/cate_utils/tasks"
+	"oliveplay/utils/utils"
+	"oliveplay/utils/utils/tasks"
 )
 
 // RegisterPingRoutes attaches routes for the Ping worker.
 func RegisterPingRoutes(r chi.Router) {
 	// Create a new Asynq client using your environment-based cluster configuration.
 	asynqClient := asynq.NewClient(asynq.RedisClusterClientOpt{
-		Addrs:    cate_utils.RedisNodes,
-		Password: cate_utils.RedisPassword,
+		Addrs:    utils.RedisNodes,
+		Password: utils.RedisPassword,
 	})
 
 	r.Post("/ping", func(w http.ResponseWriter, req *http.Request) {

@@ -6,7 +6,7 @@ WORKDIR /workspace
 COPY services/api/go.mod services/api/go.sum /workspace/services/api/
 
 # Copy the cate_utils package
-COPY libraries/cate_utils /workspace/libraries/cate_utils
+COPY libraries/utils /workspace/libraries/utils
 
 WORKDIR /workspace/services/api
 RUN go mod download

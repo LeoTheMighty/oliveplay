@@ -13,7 +13,6 @@
     ]
   },
   "plugins": [
-    "@monodon/rust",
     {
       "plugin": "@nx-tools/nx-container",
       "options": {

@@ -1,4 +1,4 @@
-package cate_utils
+package utils
 
 import (
 	"os"
@@ -26,7 +26,7 @@ const (
 	StatusError   = "error"
 
 	// Cache keys
-	CacheKeyPrefix = "cate:"
+	CacheKeyPrefix = "oliveplay:"
 	UserKeyPrefix  = "user:"
 	
 	// Default values

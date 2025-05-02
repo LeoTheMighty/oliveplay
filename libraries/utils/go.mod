@@ -1,4 +1,4 @@
-module github.com/catecafe/cate/cate_utils
+module github.com/leothemighty/oliveplay/utils
 
 require github.com/redis/go-redis/v9 v9.7.3
 

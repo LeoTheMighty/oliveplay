@@ -36,7 +36,7 @@
       },
       "dependsOn": [
         {
-          "projects": ["cate_utils"],
+          "projects": ["utils"],
           "target": "test"
         }
       ]
@@ -77,7 +77,7 @@
           "target": "production",
           "load": false,
           "metadata": {
-            "images": ["$AWS_ECR_ACCOUNT_URL/cate/api"],
+            "images": ["$AWS_ECR_ACCOUNT_URL/oliveplay/api"],
             "tags": ["type=raw,value={{date 'YYYYMMDDTHHmmss'}}-{{sha}}"]
           }
         }

@@ -23,6 +23,11 @@ Welcome to **Caté**, an all-in-one system designed to help cat owners provide t
 - **Nx CLI** (installed or run via npx)
 - **GoLang Migrate** (for database migrations) run `brew install golang-migrate`
 
+
+## Dev Setup
+
+1. Run `yarn install` to install dependencies
+
 ## Building the Project
 
 We use Nx to orchestrate builds across all our services. Each service has a docker-build target in its project.json. To build all images at once:

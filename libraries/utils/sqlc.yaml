@@ -4,11 +4,11 @@ sql:
     queries: "../../services/migrator/src/queries/"
     schema: "../../services/migrator/src/migrations/"
     database:
-      uri: "postgres://cate:password@localhost:5432/cate"
+      uri: "postgres://oliveplay:password@localhost:5432/oliveplay"
     gen:
       go:
         package: "db"
-        out: "cate_utils/db"
+        out: "utils/db"
         sql_package: "pgx/v5"
         emit_json_tags: true
         emit_interface: true

@@ -11,7 +11,7 @@ import (
 	"github.com/hibiken/asynq"
 	"github.com/redis/go-redis/v9"
 
-	"cate/cate_utils/cate_utils"
+	"oliveplay/utils/utils"
 )
 
 // TaskStatus represents the current state of a task
@@ -137,11 +137,11 @@ func (tq *TaskQueue) ProcessTasks(ctx context.Context) error {
 // NewAsynqServer sets up the Asynq server for a Redis cluster.
 func NewAsynqServer() (*asynq.Server, error) {
 	// Use the environment-based cluster configuration from cate_utils.
-	log.Println("RedisNodes:", cate_utils.RedisNodes)
+	log.Println("RedisNodes:", utils.RedisNodes)
 	redisOpt := asynq.RedisClusterClientOpt{
-		Addrs:        cate_utils.RedisNodes,
-		Password:     cate_utils.RedisPassword, // Uncomment if password is required
-		Username:     cate_utils.RedisUsername, // Add if username is required
+		Addrs:        utils.RedisNodes,
+		Password:     utils.RedisPassword, // Uncomment if password is required
+		Username:     utils.RedisUsername, // Add if username is required
 		DialTimeout:  5 * time.Second,          // Add reasonable timeouts
 		ReadTimeout:  30 * time.Second,
 		WriteTimeout: 30 * time.Second,

@@ -12,11 +12,11 @@ import (
 	_ "github.com/golang-migrate/migrate/v4/source/file"
 
 	// We'll import cate_utils so we can reference the migrations dir if needed
-	cate_utils "cate/cate_utils/cate_utils"
+	utils "oliveplay/utils/utils"
 )
 
 func main() {
-	dbURL := cate_utils.DatabaseUrl
+	dbURL := utils.DatabaseUrl
 	fmt.Println("Database URL: ", dbURL)
 	if dbURL == "" {
 		log.Fatalf("DATABASE_URL not set")

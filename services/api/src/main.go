@@ -1,18 +1,20 @@
 package main
 
 import (
-// 	"context"
+	// 	"context"
 	"log"
 	"net/http"
-// 	"os"
+
+	// 	"os"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
-// 	"github.com/jackc/pgx/v5/pgxpool"
 
-	"cate/cate_utils/cate_utils"
+	// 	"github.com/jackc/pgx/v5/pgxpool"
 
-	"catescafe.com/api/src/routers"
+	"oliveplay/utils/utils"
+
+	"oliveplay.co/api/src/routers"
 )
 
 func main() {
@@ -33,11 +35,11 @@ func main() {
 	r.Use(middleware.Logger)
 	r.Use(middleware.Recoverer)
 
-	log.Println("CateUtils: ", cate_utils.CateUtils("API"))
+	log.Println("CateUtils: ", utils.Utils("API"))
 
 	// Routes
 	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte(cate_utils.CateUtils("API")))
+		w.Write([]byte(utils.Utils("API")))
 		// w.Write([]byte("Welcome to the API"))
 	})
 
@@ -45,4 +47,4 @@ func main() {
 
 	log.Println("Server starting on :8080")
 	http.ListenAndServe(":8080", r)
-} 
+}

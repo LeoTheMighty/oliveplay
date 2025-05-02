@@ -10,7 +10,7 @@
       "options": {
         "cwd": "{projectRoot}",
         "commands": [
-          "POSTGRESQL_URL='postgres://cate:password@localhost:5432/cate?sslmode=disable' migrate create -dir src/migrations -ext sql -seq {args.name}"
+          "POSTGRESQL_URL='postgres://oliveplay:password@localhost:5432/oliveplay?sslmode=disable' migrate create -dir src/migrations -ext sql -seq {args.name}"
         ]
       }
     },
@@ -19,7 +19,7 @@
       "options": {
         "cwd": "{projectRoot}",
         "commands": [
-          "POSTGRESQL_URL='postgres://cate:password@localhost:5432/cate?sslmode=disable' migrate -path src/migrations -database ${POSTGRESQL_URL} version"
+          "POSTGRESQL_URL='postgres://oliveplay:password@localhost:5432/oliveplay?sslmode=disable' migrate -path src/migrations -database ${POSTGRESQL_URL} version"
         ]
       }
     },
@@ -29,7 +29,7 @@
       "options": {
         "cwd": "{projectRoot}",
         "commands": [
-          "POSTGRESQL_URL='postgres://cate:password@localhost:5432/cate?sslmode=disable' migrate -path src/migrations -database ${POSTGRESQL_URL} up"
+          "POSTGRESQL_URL='postgres://oliveplay:password@localhost:5432/oliveplay?sslmode=disable' migrate -path src/migrations -database ${POSTGRESQL_URL} up"
         ]
       }
     },
@@ -38,7 +38,7 @@
       "options": {
         "cwd": "{projectRoot}",
         "commands": [
-          "POSTGRESQL_URL='postgres://cate:password@localhost:5432/cate?sslmode=disable' migrate -path src/migrations -database ${POSTGRESQL_URL} up 1"
+          "POSTGRESQL_URL='postgres://oliveplay:password@localhost:5432/oliveplay?sslmode=disable' migrate -path src/migrations -database ${POSTGRESQL_URL} up 1"
         ]
       }
     },
@@ -47,7 +47,7 @@
       "options": {
         "cwd": "{projectRoot}",
         "commands": [
-          "POSTGRESQL_URL='postgres://cate:password@localhost:5432/cate?sslmode=disable' migrate -path src/migrations -database ${POSTGRESQL_URL} down 1"
+          "POSTGRESQL_URL='postgres://oliveplay:password@localhost:5432/oliveplay?sslmode=disable' migrate -path src/migrations -database ${POSTGRESQL_URL} down 1"
         ]
       }
     },
@@ -56,7 +56,7 @@
       "options": {
         "cwd": "{projectRoot}",
         "commands": [
-          "POSTGRESQL_URL='postgres://cate:password@localhost:5432/cate?sslmode=disable' migrate -path src/migrations -database ${POSTGRESQL_URL} down"
+          "POSTGRESQL_URL='postgres://oliveplay:password@localhost:5432/oliveplay?sslmode=disable' migrate -path src/migrations -database ${POSTGRESQL_URL} down"
         ]
       }
     },
@@ -65,7 +65,7 @@
       "options": {
         "cwd": "{projectRoot}",
         "commands": [
-          "POSTGRESQL_URL='postgres://cate:password@localhost:5432/cate?sslmode=disable' migrate -path src/migrations -database ${POSTGRESQL_URL} goto {args.version}"
+          "POSTGRESQL_URL='postgres://oliveplay:password@localhost:5432/oliveplay?sslmode=disable' migrate -path src/migrations -database ${POSTGRESQL_URL} goto {args.version}"
         ]
       }
     },
@@ -107,7 +107,7 @@
       },
       "dependsOn": [
         {
-          "projects": ["cate_utils"],
+          "projects": ["utils"],
           "target": "test"
         }
       ]
@@ -141,7 +141,7 @@
           "target": "production",
           "load": false,
           "metadata": {
-            "images": ["$AWS_ECR_ACCOUNT_URL/cate/migrator"],
+            "images": ["$AWS_ECR_ACCOUNT_URL/oliveplay/migrator"],
             "tags": ["type=raw,value={{date 'YYYYMMDDTHHmmss'}}-{{sha}}"]
           }
         }

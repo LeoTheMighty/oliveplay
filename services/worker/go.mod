@@ -1,9 +1,9 @@
-module catescafe.com/worker
+module oliveplay.co/worker
 
 go 1.24
 
 require (
-	cate/cate_utils v0.0.0
+	oliveplay/utils v0.0.0
 	github.com/redis/go-redis/v9 v9.7.3
 )
 
@@ -19,4 +19,4 @@ require (
 	google.golang.org/protobuf v1.35.2 // indirect
 )
 
-replace cate/cate_utils => ../../libraries/cate_utils
+replace oliveplay/utils => ../../libraries/utils

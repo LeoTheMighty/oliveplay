@@ -8,7 +8,7 @@ RUN apt-get update && apt-get install -y file
 COPY services/migrator/go.mod services/migrator/go.sum ./services/migrator/
 
 # Copy the cate_utils package
-COPY libraries/cate_utils /workspace/libraries/cate_utils
+COPY libraries/utils /workspace/libraries/utils
 
 WORKDIR /workspace/services/migrator
 RUN go mod download

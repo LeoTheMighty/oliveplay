@@ -6,7 +6,7 @@ WORKDIR /workspace
 COPY services/worker/go.mod services/worker/go.sum /workspace/services/worker/
 
 # Copy the cate_utils package
-COPY libraries/cate_utils /workspace/libraries/cate_utils
+COPY libraries/utils /workspace/libraries/utils
 
 WORKDIR /workspace/services/worker
 RUN go mod download

@@ -1,4 +1,4 @@
-module catescafe.com/api
+module oliveplay.co/api
 
 go 1.24
 
@@ -10,7 +10,7 @@ require (
 	//	golang.org/x/crypto v0.31.0 // indirect
 	//	golang.org/x/text v0.21.0 // indirect
 
-	cate/cate_utils v0.0.0
+	oliveplay/utils v0.0.0
 	github.com/go-chi/chi/v5 v5.2.1
 	github.com/hibiken/asynq v0.25.1
 )
@@ -27,4 +27,4 @@ require (
 	google.golang.org/protobuf v1.35.2 // indirect
 )
 
-replace cate/cate_utils => ../../libraries/cate_utils
+replace oliveplay/utils => ../../libraries/utils
