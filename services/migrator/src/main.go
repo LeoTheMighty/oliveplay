@@ -3,16 +3,17 @@ package main
 import (
 	"fmt"
 	"log"
+
 	// "os"
 
 	"github.com/golang-migrate/migrate/v4"
 	// For pgx driver
 
-    _ "github.com/golang-migrate/migrate/v4/database/postgres"
+	_ "github.com/golang-migrate/migrate/v4/database/postgres"
 	_ "github.com/golang-migrate/migrate/v4/source/file"
 
 	// We'll import cate_utils so we can reference the migrations dir if needed
-	utils "oliveplay/utils/utils"
+	"github.com/leothemighty/oliveplay/utils/utils"
 )
 
 func main() {
@@ -22,7 +23,7 @@ func main() {
 		log.Fatalf("DATABASE_URL not set")
 	}
 
-	// Example local usage: use the "file://" prefix to point to the actual folder 
+	// Example local usage: use the "file://" prefix to point to the actual folder
 	// containing your migrations from cate_utils if it's bundled together or copied
 	m, err := migrate.New(
 		"file://migrations",

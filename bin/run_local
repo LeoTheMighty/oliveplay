@@ -49,6 +49,18 @@ ENV=development NGROK_URL=$NGROK_URL ${root_path}/script/update_env.sh
 # Install dependencies
 npx nx run-many -t install
 
+# Update database schema unless --skip-db-update flag is passed
+if [[ "$*" != *"--skip-db-update"* ]]; then
+    # Build the migrator
+    npx nx run migrator:docker-build
+
+    # First run the db and migrator, to update the db schema
+    docker compose up -d db migrator && docker compose logs -f migrator
+
+    # Generate the schema from the database
+    npx nx run utils:generate_schema
+fi
+
 # build everything
 npx nx run-many -t docker-build
 

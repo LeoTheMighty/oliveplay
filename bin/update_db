@@ -1,0 +1,18 @@
+#!/bin/bash
+
+set -e
+
+root_path=$(cd "$(dirname "$0")/.." && pwd -P)
+script_path=$(cd "$(dirname "$0")" && pwd -P)
+
+# Install dependencies
+npx nx run-many -t install
+
+# Build the migrator
+npx nx run migrator:docker-build
+
+# First run the db and migrator, to update the db schema
+docker compose up -d db migrator && docker compose logs -f migrator
+
+# Generate the schema from the database
+npx nx run utils:generate_schema

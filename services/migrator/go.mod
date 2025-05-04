@@ -1,9 +1,9 @@
-module oliveplay.co/migrator
+module github.com/leothemighty/oliveplay/migrator
 
 go 1.24
 
 require (
-	oliveplay/utils v0.0.0
+	github.com/leothemighty/oliveplay/utils v0.0.0
 	github.com/golang-migrate/migrate/v4 v4.18.2
 )
 
@@ -21,4 +21,4 @@ require (
 	google.golang.org/protobuf v1.35.2 // indirect
 )
 
-replace oliveplay/utils => ../../libraries/utils
+replace github.com/leothemighty/oliveplay/utils => ../../libraries/utils

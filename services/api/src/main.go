@@ -12,9 +12,8 @@ import (
 
 	// 	"github.com/jackc/pgx/v5/pgxpool"
 
-	"oliveplay/utils/utils"
-
-	"oliveplay.co/api/src/routers"
+	"github.com/leothemighty/oliveplay/api/src/routers"
+	"github.com/leothemighty/oliveplay/utils/utils"
 )
 
 func main() {
@@ -44,6 +43,7 @@ func main() {
 	})
 
 	routers.RegisterPingRoutes(r)
+	routers.RegisterGroupRoutes(r)
 
 	log.Println("Server starting on :8080")
 	http.ListenAndServe(":8080", r)

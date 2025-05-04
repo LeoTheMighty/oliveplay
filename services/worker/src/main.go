@@ -4,7 +4,7 @@ import (
 	"context"
 	"log"
 
-	"oliveplay/utils/utils/tasks"
+	"github.com/leothemighty/oliveplay/utils/utils/tasks"
 )
 
 func main() {

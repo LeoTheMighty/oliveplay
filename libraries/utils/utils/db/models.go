@@ -5,9 +5,36 @@
 package db
 
 import (
+	"time"
+
+	"github.com/cridenour/go-postgis"
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5/pgtype"
 )
+
+type Activity struct {
+	ID        int32       `json:"id"`
+	Name      string      `json:"name"`
+	Image     pgtype.Text `json:"image"`
+	CreatedAt time.Time   `json:"created_at"`
+	UpdatedAt time.Time   `json:"updated_at"`
+}
+
+type Group struct {
+	ID          int32         `json:"id"`
+	Name        string        `json:"name"`
+	Image       pgtype.Text   `json:"image"`
+	Description pgtype.Text   `json:"description"`
+	Location    postgis.Point `json:"location"`
+	CreatedAt   time.Time     `json:"created_at"`
+	UpdatedAt   time.Time     `json:"updated_at"`
+}
+
+type GroupActivity struct {
+	GroupID    int32     `json:"group_id"`
+	ActivityID int32     `json:"activity_id"`
+	CreatedAt  time.Time `json:"created_at"`
+}
 
 type User struct {
 	ID          uuid.UUID        `json:"id"`

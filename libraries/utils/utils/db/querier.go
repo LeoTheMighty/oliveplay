@@ -11,7 +11,18 @@ import (
 )
 
 type Querier interface {
+	CreateGroup(ctx context.Context, arg CreateGroupParams) (CreateGroupRow, error)
 	CreateUser(ctx context.Context, arg CreateUserParams) (User, error)
+	// -------------------------------------------------------------
+	// Fetch all distinct activities that belong to groups found by
+	// the same radius filter.  Again uses positional params for sqlc.
+	// -------------------------------------------------------------
+	GetActivitiesWithinRadius(ctx context.Context, arg GetActivitiesWithinRadiusParams) ([]Activity, error)
+	// -------------------------------------------------------------
+	// Get all groups whose home_location is within :radius_meters of
+	// the supplied point (:longitude, :latitude).  Works with sqlc.
+	// -------------------------------------------------------------
+	GetGroupsWithinRadius(ctx context.Context, arg GetGroupsWithinRadiusParams) ([]GetGroupsWithinRadiusRow, error)
 	GetUser(ctx context.Context, id uuid.UUID) (User, error)
 	ListUsers(ctx context.Context, arg ListUsersParams) ([]User, error)
 	UpdateUser(ctx context.Context, arg UpdateUserParams) (User, error)
