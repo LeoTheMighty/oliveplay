@@ -4,6 +4,7 @@ import (
 	"strconv"
 
 	"github.com/jackc/pgx/v5/pgtype"
+	"github.com/leothemighty/oliveplay/utils/utils/aws"
 	"github.com/leothemighty/oliveplay/utils/utils/db"
 	"github.com/leothemighty/oliveplay/utils/utils/types"
 )
@@ -16,7 +17,8 @@ func SerializeGroup(group db.CreateGroupRow) (types.GroupResponse, error) {
 
 	var image *string
 	if group.Image.Valid {
-		image = &group.Image.String
+		url := aws.GetFileURL(group.Image.String, "")
+		image = &url
 	}
 
 	return types.GroupResponse{
@@ -89,13 +91,19 @@ func DeserializeCreateGroup(group_request types.GroupRequest) (db.CreateGroupPar
 func DeserializeGetCloseGroups(groups []db.GetGroupsWithinRadiusRow) ([]types.GroupResponse, error) {
 	group_responses := []types.GroupResponse{}
 	for _, group := range groups {
+		var image *string
+		if group.Image.String != "" {
+			url := aws.GetFileURL(group.Image.String, "")
+			image = &url
+		}
+
 		group_response := types.GroupResponse{
 			ID:          strconv.Itoa(int(group.ID)),
 			CreatedAt:   group.CreatedAt,
 			UpdatedAt:   group.UpdatedAt,
 			Name:        group.Name,
 			Description: group.Description.String,
-			Image:       group.Image.String,
+			Image:       image,
 			Longitude:   group.Longitude.Float64,
 			Latitude:    group.Latitude.Float64,
 		}

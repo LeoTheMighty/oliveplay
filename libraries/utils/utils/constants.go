@@ -2,8 +2,8 @@ package utils
 
 import (
 	"os"
-	"time"
 	"strings"
+	"time"
 )
 
 // Environment variables
@@ -17,6 +17,10 @@ var (
 	APITimeout = getDurationEnvOrDefault("API_TIMEOUT", 30*time.Second)
 
 	DatabaseUrl = getEnvOrDefault("DATABASE_URL", "NOT_SET")
+
+	S3Bucket   = getEnvOrDefault("S3_BUCKET", "oliveplay")
+	AWSRegion  = getEnvOrDefault("AWS_REGION", "us-west-2")
+	AWSSession = getEnvOrDefault("AWS_SESSION", "default")
 )
 
 // Hardcoded constants
@@ -28,9 +32,9 @@ const (
 	// Cache keys
 	CacheKeyPrefix = "oliveplay:"
 	UserKeyPrefix  = "user:"
-	
+
 	// Default values
-	DefaultPageSize    = 10
+	DefaultPageSize   = 10
 	MaxPageSize       = 100
 	DefaultTimeoutSec = 30
 )
