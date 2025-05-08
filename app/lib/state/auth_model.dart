@@ -2,6 +2,10 @@ import 'package:flutter/foundation.dart';
 import 'package:auth0_flutter/auth0_flutter.dart';
 
 class AuthModel extends ChangeNotifier {
+  // TODO: Need two types of authentication
+  // .   * Auth0 Auth, then pull the db User
+  //     * Simple Auth, using phone number
+
   /// Internal, private state of the credentials.
   Credentials? _credentials;
 

@@ -6,7 +6,7 @@ import (
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
-	"github.com/leothemighty/oliveplay/utils/utils"
+	"github.com/leothemighty/oliveplay/utils"
 )
 
 var (

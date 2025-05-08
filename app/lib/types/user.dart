@@ -1,0 +1,1 @@
+// Create a User type that will store the response from the API

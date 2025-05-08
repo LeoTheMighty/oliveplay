@@ -4,9 +4,9 @@ import (
 	"strconv"
 
 	"github.com/jackc/pgx/v5/pgtype"
-	"github.com/leothemighty/oliveplay/utils/utils/aws"
-	"github.com/leothemighty/oliveplay/utils/utils/db"
-	"github.com/leothemighty/oliveplay/utils/utils/types"
+	"github.com/leothemighty/oliveplay/utils/aws"
+	"github.com/leothemighty/oliveplay/utils/db"
+	"github.com/leothemighty/oliveplay/utils/types"
 )
 
 func SerializeGroup(group db.CreateGroupRow) (types.GroupResponse, error) {

@@ -8,8 +8,8 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/hibiken/asynq"
 
-	"github.com/leothemighty/oliveplay/utils/utils"
-	"github.com/leothemighty/oliveplay/utils/utils/tasks"
+	"github.com/leothemighty/oliveplay/utils"
+	"github.com/leothemighty/oliveplay/utils/tasks"
 )
 
 // RegisterPingRoutes attaches routes for the Ping worker.

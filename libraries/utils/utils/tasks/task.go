@@ -11,7 +11,7 @@ import (
 	"github.com/hibiken/asynq"
 	"github.com/redis/go-redis/v9"
 
-	"github.com/leothemighty/oliveplay/utils/utils"
+	"github.com/leothemighty/oliveplay/utils"
 )
 
 // TaskStatus represents the current state of a task

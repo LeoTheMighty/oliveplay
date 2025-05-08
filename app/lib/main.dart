@@ -6,6 +6,143 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'constants.dart';
 
+/*
+
+Auth States:
+* Full User
+* Invitation User
+  * View invites
+  * Respond to invite
+  * Allow to see Private Group/Event
+  * Create User if doesn't exist
+* No Auth
+  * Sign in to invite user or real user
+  * View Public Groups
+  * View Public Events
+
+What is auth necessary:
+* Create Group
+* Join Group
+* Create Event
+* Create Poll
+* Create Post
+* Post images
+* Create profile
+* Message
+
+What is not:
+* View Groups
+* View Events
+* View Invitation
+* Accept invitation
+* Join Event from invite
+* Get invitation updates via text/email
+* Change your display name?
+
+Invitation:
+* Invite from contact (pull phone + name)
+* Create "User" from invitation ?
+  * What happens if we just store info in the invation itself?
+  * Problem: How would you "sign in" to an invitation?
+  * Through a link to email/phone?
+  * Verify phone number flow?
+* They get a text
+  * Link to website (sketchy?)
+  * How to make less sketchy?
+    * Tell them to go to oliveplay.co without clicking anything
+  * Sign in flow might look like "type in phone number", then verify
+  * Look into Partiful unauth flow
+  * How does partiful get away with sending texts without consent?
+
+
+User:
+* auth0_id? nullable
+* computed isSimpleUser = auth0_id == null
+
+
+==========================
+|                [login] |
+|                        |
+|                        |
+|                        |
+|                        |
+|                        |
+|                        |
+|                        |
+|                        |
+|                        |
+|                        |
+==========================
+
+==========================
+|              [hi name] |
+|                        |
+|                        |
+|                        |
+|                        |
+|                        |
+|                        |
+|                        |
+|                        |
+|                        |
+|                        |
+==========================
+
+==========================
+|                        |
+|                        |
+|        OlivePlay       |
+|                        |
+|         Sign In        |
+|          Google        |
+|           Apple        |
+|            or          |
+|                        |
+|    View Invitations    |
+|      Phone #:          |
+==========================
+
+^ Is this a weird UX? 
+Pros: People who don't want to create an account won't have to
+Cons: Makes the auth screen harder to understand
+
+==========================
+|      [invites] [login] |
+|                        |
+|                        |
+|                        |
+|                        |
+|                        |
+|                        |
+|                        |
+|                        |
+|                        |
+|                        |
+==========================
+
+^ Maybe have them two different buttons like use the `mail` logo
+- when not authenticated, then have a green circle to get people to click
+- on it more.
+
+==========================
+|                        |
+|                        |
+|                        |
+|    View your Invites   |
+|        Phone #:        |
+|                        |
+|                        |
+|   Data Charges apply   |
+|                        |
+|                        |
+|                        |
+==========================
+
+Just phone number followed by the confirmation should be enough to
+create a "auth"
+
+*/
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(

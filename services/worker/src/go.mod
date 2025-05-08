@@ -19,4 +19,4 @@ require (
 	google.golang.org/protobuf v1.35.2 // indirect
 )
 
-replace github.com/leothemighty/oliveplay/utils => ../../libraries/utils
+replace github.com/leothemighty/oliveplay/utils => ../../../libraries/utils/utils

@@ -12,8 +12,8 @@ import (
 
 	// 	"github.com/jackc/pgx/v5/pgxpool"
 
-	"github.com/leothemighty/oliveplay/api/src/routers"
-	"github.com/leothemighty/oliveplay/utils/utils"
+	"github.com/leothemighty/oliveplay/api/routers"
+	"github.com/leothemighty/oliveplay/utils"
 )
 
 func main() {

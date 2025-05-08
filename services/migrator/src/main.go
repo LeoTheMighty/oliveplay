@@ -13,7 +13,7 @@ import (
 	_ "github.com/golang-migrate/migrate/v4/source/file"
 
 	// We'll import cate_utils so we can reference the migrations dir if needed
-	"github.com/leothemighty/oliveplay/utils/utils"
+	"github.com/leothemighty/oliveplay/utils"
 )
 
 func main() {

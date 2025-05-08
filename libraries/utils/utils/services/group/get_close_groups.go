@@ -6,9 +6,9 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/leothemighty/oliveplay/utils/utils/db"
-	"github.com/leothemighty/oliveplay/utils/utils/serializers"
-	"github.com/leothemighty/oliveplay/utils/utils/types"
+	"github.com/leothemighty/oliveplay/utils/db"
+	"github.com/leothemighty/oliveplay/utils/serializers"
+	"github.com/leothemighty/oliveplay/utils/types"
 )
 
 func GetCloseGroups(context context.Context, req *http.Request) ([]types.GroupResponse, error) {

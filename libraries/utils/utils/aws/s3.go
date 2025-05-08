@@ -11,7 +11,7 @@ import (
 	"github.com/aws/aws-sdk-go/service/s3"
 	"github.com/aws/aws-sdk-go/service/s3/s3manager"
 
-	"github.com/leothemighty/oliveplay/utils/utils"
+	"github.com/leothemighty/oliveplay/utils"
 
 	"github.com/google/uuid"
 )
